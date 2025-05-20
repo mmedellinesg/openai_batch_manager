@@ -3,6 +3,7 @@ from .logger import LogFileManager
 from .client import OpenAIClient
 import os
 import warnings
+from datetime import datetime
 
 class BatchManager:
     def __init__(self, api_key, log_path="logs/gpt_batch_requests.csv"):
@@ -35,7 +36,7 @@ class BatchManager:
     def check_status(self, batch_id, update_log=True):
         report = self.client.get_batch_status(batch_id)
         print(f"Batch ID: {batch_id}")
-        print(f"Submitted: {report.submission_datetime}")
+        print(f"Submitted: {datetime.fromtimestamp(report.created_at).strftime('%Y-%m-%d %H:%M:%S')}")
         print(f"Status: {report.status}")
         if update_log:
             self.logger.update_status(batch_id, report.status)
