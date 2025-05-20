@@ -32,7 +32,13 @@ class BatchManager:
         print(f"Submitted batch: {batch.id}")
         return uploaded.id, batch.id
 
-    def check_status(self, batch_id):
+    def check_status(self, batch_id, update_log=True):
+        report = self.client.get_batch_status(batch_id)
+        print(f"Batch ID: {batch_id}")
+        print(f"Submitted: {report.submission_datetime}")
+        print(f"Status: {report.status}")
+        if update_log:
+            self.logger.update_status(batch_id, report.status)
         return self.client.get_batch_status(batch_id)
 
     def download_if_ready(self, batch_id, out_path):

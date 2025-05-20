@@ -30,6 +30,7 @@ class LogFileManager:
             df.loc[df['id'] == batch_id, 'status'] = status
             df.loc[df['id'] == batch_id, 'status_datetime'] = datetime.now().isoformat()
             df.to_csv(self.path, index=False)
+            self.df = df
             print(f"Updated status for batch: {batch_id}")
         else:
             print(f"Batch ID {batch_id} not found in log.")
