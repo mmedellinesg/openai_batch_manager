@@ -1,1 +1,1 @@
-# openai_batch_manager
+# OpenAI Batch Manager
