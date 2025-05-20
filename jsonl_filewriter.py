@@ -1,4 +1,3 @@
-import pandas as pd
 import json
 
 def write_jsonl_file_from_df(
