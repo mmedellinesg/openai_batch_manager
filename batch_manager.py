@@ -9,7 +9,7 @@ class BatchManager:
         self.client = OpenAIClient(api_key)
         self.logger = LogFileManager(log_path)
 
-    def submit_batch(self, infile, purpose=''):
+    def submit_batch(self, infile, purpose='', duplicate_skip=True):
         log_df = self.logger.df
 
         # Check if the file has already been submitted
@@ -21,6 +21,9 @@ class BatchManager:
             batch_status = log_df.loc[log_df['id'] == batch_id, 'status'].values[0]
             if batch_status != 'failed':
                 warnings.warn(f"File {this_file} has already been submitted with batch ID {batch_id} and status {batch_status}.")
+                
+                if duplicate_skip:
+                    raise ValueError(f"File '{this_file}' has already been submitted — aborting.")
 
         uploaded = self.client.upload_file(infile)
         batch = self.client.create_batch(uploaded.id, purpose)
