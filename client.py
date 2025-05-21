@@ -21,7 +21,8 @@ class OpenAIClient:
     def download_results(self, batch_id, out_path):
         batch = self.get_batch_status(batch_id)
         if batch.status == 'completed':
-            file = self.client.files.content(batch.output_file_id)
+            batch_obj = self.client.batches.retrieve(batch_id)
+            file = self.client.files.content(batch_obj.output_file_id)
             with open(out_path, 'wb') as f:
                 f.write(file.text)
             return batch.output_file_id
