@@ -15,7 +15,8 @@ class LogFileManager:
             'infile': str,
             'status': str,
             'status_datetime': str,
-            'outfile_id': str
+            'outfile_id': str,
+            'outfile': str
         }
         self._ensure_exists()
 
