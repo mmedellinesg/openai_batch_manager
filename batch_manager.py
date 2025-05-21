@@ -43,8 +43,9 @@ class BatchManager:
         return self.client.get_batch_status(batch_id)
 
     def download_if_ready(self, batch_id, out_path):
-        self.client.download_results(batch_id, out_path)
+        output_id = self.client.download_results(batch_id, out_path)
         # Update the log file with the status
         self.logger.update_status(batch_id, 'completed')
+        self.logger.update_outfile(batch_id, out_path, output_id)
         print(f"Downloaded results for batch: {batch_id}")
         return True
