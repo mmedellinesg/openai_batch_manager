@@ -8,6 +8,15 @@ class LogFileManager:
         self.columns = [
             'id', 'submission_datetime', 'purpose','infile','infile_id','status','status_datetime','outfile','outfile_id'
         ]
+        self.dtypes = {
+            'id': str,
+            'submission_datetime': str,
+            'purpose': str,
+            'infile': str,
+            'status': str,
+            'status_datetime': str,
+            'outfile_id': str
+        }
         self._ensure_exists()
 
     def _ensure_exists(self):
@@ -22,7 +31,7 @@ class LogFileManager:
         df = pd.read_csv(self.path)
         row = pd.DataFrame([[
             batch_id, datetime.now().isoformat(), purpose, infile, infile_id, status, datetime.now().isoformat(), '', ''
-        ]], columns=self.columns)
+        ]], columns=self.columns).astype(self.dtypes)
         df = pd.concat([df, row], ignore_index=True)
         df.to_csv(self.path, index=False)
         self.df = df
