@@ -42,8 +42,8 @@ class LogFileManager:
     def update_outfile(self, batch_id, outfile, outfile_id):
         df = pd.read_csv(self.path)
         if batch_id in df['id'].values:
-            df.loc[df['id'] == batch_id, 'outfile'] = outfile
-            df.loc[df['id'] == batch_id, 'outfile_id'] = outfile_id
+            df.loc[df['id'] == batch_id, 'outfile'] = str(outfile)
+            df.loc[df['id'] == batch_id, 'outfile_id'] = str(outfile_id)
             df.to_csv(self.path, index=False)
             self.df = df
             print(f"Updated outfile for batch: {batch_id}")
