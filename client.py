@@ -23,7 +23,7 @@ class OpenAIClient:
         if batch.status == 'completed':
             batch_obj = self.client.batches.retrieve(batch_id)
             file = self.client.files.content(batch_obj.output_file_id)
-            with open(out_path, 'wb') as f:
+            with open(out_path, 'w') as f:
                 f.write(file.text)
             return batch.output_file_id
         return False
