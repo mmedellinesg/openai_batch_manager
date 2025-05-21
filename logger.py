@@ -21,7 +21,7 @@ class LogFileManager:
 
     def _ensure_exists(self):
         if not os.path.exists(self.path):
-            df = pd.DataFrame(columns=self.columns)
+            df = pd.DataFrame(columns=self.columns).astype(self.dtypes)
             df.to_csv(self.path, index=False)
         else:
             df = pd.read_csv(self.path)
@@ -38,7 +38,7 @@ class LogFileManager:
         print(f"Logged submission: {batch_id}")
 
     def update_status(self, batch_id, status):
-        df = pd.read_csv(self.path)
+        df = pd.read_csv(self.path).astype(self.dtypes)
         if batch_id in df['id'].values:
             df.loc[df['id'] == batch_id, 'status'] = status
             df.loc[df['id'] == batch_id, 'status_datetime'] = datetime.now().isoformat()
@@ -49,7 +49,7 @@ class LogFileManager:
             print(f"Batch ID {batch_id} not found in log.")
     
     def update_outfile(self, batch_id, outfile, outfile_id):
-        df = pd.read_csv(self.path)
+        df = pd.read_csv(self.path).astype(self.dtypes)
         if batch_id in df['id'].values:
             df.loc[df['id'] == batch_id, 'outfile'] = str(outfile)
             df.loc[df['id'] == batch_id, 'outfile_id'] = str(outfile_id)
